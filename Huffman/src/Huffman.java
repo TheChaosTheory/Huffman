@@ -9,6 +9,7 @@ public class Huffman {
 	protected int[] count;
 	protected String inputFile;
 	protected String[] value;
+	protected HuffmanNode root;
 
 
 	public Huffman(ArraySortedList<HuffmanNode> sorted){
@@ -44,6 +45,7 @@ public class Huffman {
 			HuffmanNode one = (HuffmanNode) include.dequeue();
 			if(include.isEmpty()){
 				include.enqueue(one);
+				root = one;
 				break;
 			}
 			HuffmanNode two = (HuffmanNode) include.dequeue();
@@ -82,6 +84,7 @@ public class Huffman {
 
 
 	public String findCode(char c) {
+		
 		return null;
 	}
 }
