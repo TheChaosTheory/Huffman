@@ -27,12 +27,12 @@ public class ArraySortedList<T> extends ArrayUnsortedList<T>
     super(origCap);
   }
 
-  public void add(T element)
+  public void add(HuffmanNode element)
   // Precondition:  element is Comparable.
   //  
   // Adds element to this list.
   {
-    T listElement;      
+    HuffmanNode listElement;      
     int location = 0;
  
     if (numElements == list.length)
@@ -40,18 +40,31 @@ public class ArraySortedList<T> extends ArrayUnsortedList<T>
 
     while (location < numElements)
     {
-      listElement = (T)list[location];
-      if (((Comparable)listElement).compareTo(element) < 0)  // list element < add element
+      listElement = (HuffmanNode)list[location];
+     
+      if (listElement.getFrequency() > element.getFrequency())  // list element < add element
         location++;
+      else if(listElement.getFrequency() == element.getFrequency() && listElement.getLetter() < element.getLetter())
+    	  location++;
       else
         break;   // list element >= add element
     }
+   
     
     for (int index = numElements; index > location; index--)
       list[index] = list[index - 1];
 
-    list[location] = element;
+    list[location] = (T) element;
     numElements++;
+  }
+  
+  public T dequeue(){
+	  T node = list[size()-1];
+	  list[size()-1] = null;
+	  numElements--;
+	  
+	  return node;
+	  
   }
 
   public boolean remove (T element)

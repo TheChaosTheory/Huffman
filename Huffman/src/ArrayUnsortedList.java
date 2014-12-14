@@ -131,7 +131,7 @@ public class ArrayUnsortedList<T> implements ListInterface<T>
     return listString;
   }
 
-  public void reset()
+  public  void reset()
   // Initializes current position for an iteration through this list,
   // to the first element on this list.
   {

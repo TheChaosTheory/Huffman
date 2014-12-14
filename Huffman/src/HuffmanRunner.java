@@ -1,64 +1,36 @@
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+
+//Made By Tom Lazar, Chris Mueller, and Brian ZHU
 public class HuffmanRunner
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException
 	{
-		if (args.length != 1)
-		{
-			System.err.println("Error: must include input filename!");
-			System.exit(-1);
-		}
-		String filename = args[0];
-		File file = new File(filename);
+		
+		Scanner s = new Scanner(System.in);
+		//String filename = s.nextLine();
+		File file = new File("/home/tom/Desktop/ex1");
 
-		FrequencyList fl = buildFrequencyList(file);
+		FrequencyList fl = new FrequencyList(file);
 
 		ArraySortedList<HuffmanNode> sorted = fl.getFrequencyList();
+		
+		ArraySortedList<HuffmanNode> sorted2 = new ArraySortedList();
+		
+		for(int i = 0; i < sorted.size();i++){
+			sorted2.add(sorted.getNext());
+		}
 
-		Huffman huffman = new Huffman(sorted);
+		Huffman huffman = new Huffman(sorted2);
 
 		printTable(sorted, huffman);
 
 		System.out.println();
 
 		compressFile(file, huffman);
-	}
-
-	private static FrequencyList buildFrequencyList(File file)
-	{
-		FrequencyList fl = new FrequencyList();
-		
-		try {
-			FileReader reader = new FileReader(file);
-
-			int data = reader.read();
-			char c;
-			while (data != -1) // While there are characters in the file
-			{
-				c = (char)data;
-				if (Character.isLetter(c))
-				{
-					c = Character.toUpperCase(c);
-					fl.add(c); // Add to the Frequency List
-				}
-				data = reader.read();
-			}
-			reader.close();
-		} 
-		catch (java.io.FileNotFoundException e) 
-		{
-			System.err.println("Error: File \"" + file + "\" not found!");
-			System.exit(-1);
-		}
-		catch (java.io.IOException e)
-		{
-			System.err.println("Error reading file \"" + file + "\"!");
-			System.exit(-1);
-		}
-		return fl;
 	}
 
 	private static void printTable(ArraySortedList<HuffmanNode> sorted, Huffman huffman)
@@ -68,7 +40,7 @@ public class HuffmanRunner
 		for (int i = sorted.size(); i > 0; i--)
 		{
 			HuffmanNode cf = sorted.getNext();
-			System.out.println(cf.getLetter() + ": " + huffman.findCode(cf.getLetter()));
+			System.out.println(cf + ": " + huffman.findCode(cf.getLetter()));
 		}
 	}
 

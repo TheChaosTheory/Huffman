@@ -1,28 +1,25 @@
+
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.FileReader;
-public class Huffman {
+public class Huffman<T> {
 
 
-	private ArrayUnbndSortedQueue include;
+	private ArraySortedList<T> include;
 	protected int[] count;
 	protected String inputFile;
 	protected String[] value;
 	protected HuffmanNode root;
+	protected String code[];
 
 
 	public Huffman(ArraySortedList<HuffmanNode> sorted){
-		Scanner s = new Scanner(System.in);
-		inputFile = s.nextLine();
-		read(inputFile);
-		if(include == null)return;
-		else{
-
-		}
+		include = (ArraySortedList<T>) sorted;
+		run();
 		this.toString();
+		code = new String[26];
+		buildCode(code, root,"");
 	}
-	
 	
 	public String freqCount(){
 		if(include == null)return "NULL";
@@ -42,25 +39,24 @@ public class Huffman {
 	
 	public void run(){
 		while(true){
-			HuffmanNode one = (HuffmanNode) include.dequeue();
-			if(include.isEmpty()){
-				include.enqueue(one);
-				root = one;
+			include.reset();
+			if(include.size() == 1){
+				include.reset();
+				root = (HuffmanNode) include.getNext();
 				break;
 			}
+			HuffmanNode one = (HuffmanNode) include.dequeue();
 			HuffmanNode two = (HuffmanNode) include.dequeue();
 			int total = one.getFrequency() + two.getFrequency();
-			char c = one.getLetter();
-			HuffmanNode nNode = new HuffmanNode(c,total,one,two);
+			char c = 65 + 26;
+			@SuppressWarnings({ "rawtypes", "unused" })
+			HuffmanNode nNode = new HuffmanNode(c,total,two,one);
+			include.add(nNode);
 			
 		}
 	}
 	
-	
-
-
-
-	public  void read(String s){
+/*	public  void read(String s){
 		if(s == null)return;
 		else{
 			Scanner temp = new Scanner(s);
@@ -80,11 +76,20 @@ public class Huffman {
 			}
 		}
 		
+	}*/
+	
+	public String findCode(char c){
+		String output = code[c-65];
+		return output;
 	}
 
-
-	public String findCode(char c) {
-		
-		return null;
-	}
+	private static void buildCode(String[] st, HuffmanNode x, String s) {
+        if (!x.isLeaf()) {
+            buildCode(st, x.getLeftChild(),  s + '1');
+            buildCode(st, x.getRightChild(), s + '0');
+        }
+        else {
+            st[x.getLetter()-65] = s;
+        }
+    }
 }
