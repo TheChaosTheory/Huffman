@@ -19,6 +19,12 @@ public class HuffmanRunner
 		ArraySortedList<HuffmanNode> sorted = fl.getFrequencyList();
 		
 		ArraySortedList<HuffmanNode> sorted2 = new ArraySortedList();
+		/*DAVID ADDED THIS- you don't specify the type of the array list on line 21. You should at least use diamond notation
+			and do ...=new ArraySortedList<>()
+		You also don't specify the type at all in FrequencyList  in list, so if someone added an instance of Object to List(legal), they you
+			would be trying to add an Object instance to an ArrayList of only HuffmanNodes, which Java won't allow.
+		You can at least try to find where the error is by checking to see if what you are actually adding is an instanceof HuffmanNode.
+		In short, my best guess is that your problem is with data types.*/
 		
 		for(int i = 0; i < sorted.size();i++){
 			sorted2.add(sorted.getNext());
